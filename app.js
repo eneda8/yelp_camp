@@ -13,26 +13,27 @@ var express 				= require("express"),
 		User 						= require("./models/user"),
 		seedDB 					= require("./seeds")
 
-var port = process.env.PORT || 3000;
 
 //requiring routes
 var commentRoutes 		= require("./routes/comments"),	
 		campgroundRoutes 	= require("./routes/campgrounds"),
 		indexRoutes				= require("./routes/index")
 
-// mongoose.connect('mongodb://localhost:27017/db_name', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-// .then(() => console.log('Connected to DB!'))
-// .catch(error => console.log(error.message));
+console.log(process.env.DATABASEURL);
 
-mongoose.connect("mongodb+srv://eneda:zjKb0y0dRVvz0fUF@cluster0.jjrzk.mongodb.net/<yelp_camp>?retryWrites=true&w=majority", {
+mongoose.connect('mongodb://localhost:27017/yelp_camp', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
 .then(() => console.log('Connected to DB!'))
 .catch(error => console.log(error.message));
+
+// mongoose.connect("mongodb+srv://eneda:zjKb0y0dRVvz0fUF@cluster0.jjrzk.mongodb.net/<yelp_camp>?retryWrites=true&w=majority", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// })
+// .then(() => console.log('Connected to DB!'))
+// .catch(error => console.log(error.message));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -73,6 +74,6 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(port, function(){
+app.listen(process.env.PORT || 3000, function(){
 	console.log("YelpCamp is running")
 });
