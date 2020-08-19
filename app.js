@@ -1,7 +1,7 @@
 var express 				= require("express"),
  		app 						= express(),
-		session					=require("express-session"),
-		MongoStore			=require("connect-mongo")(session),
+		session					= require("express-session"),
+		MongoStore			= require("connect-mongo")(session),
  		bodyParser 			= require("body-parser"),
 	 	mongoose 				= require("mongoose"),
 		flash						= require("connect-flash"),
@@ -13,12 +13,12 @@ var express 				= require("express"),
 		User 						= require("./models/user"),
 		seedDB 					= require("./seeds")
 
-
 //requiring routes
 var commentRoutes 		= require("./routes/comments"),	
 		campgroundRoutes 	= require("./routes/campgrounds"),
 		indexRoutes				= require("./routes/index")
 
+var url = process.env.DATABASEURL || 
 mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -34,12 +34,6 @@ app.use(flash());
 // seedDB();
 
 //PASSPORT CONFIGURATION
-
-// app.use(require("express-session")({
-// 	secret: "Once again Rusty wins cutest dog!",
-// 	resave: false,
-// 	saveUninitialized: false
-// }));
 
 app.use(session({
 	secret:"yelper camper is a cool thing!",
