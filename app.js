@@ -19,21 +19,12 @@ var commentRoutes 		= require("./routes/comments"),
 		campgroundRoutes 	= require("./routes/campgrounds"),
 		indexRoutes				= require("./routes/index")
 
-console.log(process.env.DATABASEURL);
-
-mongoose.connect('mongodb://localhost:27017/yelp_camp', {
+mongoose.connect(process.env.DATABASEURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
 .then(() => console.log('Connected to DB!'))
 .catch(error => console.log(error.message));
-
-// mongoose.connect("mongodb+srv://eneda:zjKb0y0dRVvz0fUF@cluster0.jjrzk.mongodb.net/<yelp_camp>?retryWrites=true&w=majority", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-// .then(() => console.log('Connected to DB!'))
-// .catch(error => console.log(error.message));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
