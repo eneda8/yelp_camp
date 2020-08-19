@@ -1,5 +1,7 @@
 var express 				= require("express"),
  		app 						= express(),
+		session					=require("express-session"),
+		MongoStore			=require("connect-mongo")(session),
  		bodyParser 			= require("body-parser"),
 	 	mongoose 				= require("mongoose"),
 		flash						= require("connect-flash"),
@@ -10,6 +12,8 @@ var express 				= require("express"),
 		Comment 				= require("./models/comment"),
 		User 						= require("./models/user"),
 		seedDB 					= require("./seeds")
+
+var port = process.env.PORT || 3000;
 
 //requiring routes
 var commentRoutes 		= require("./routes/comments"),	
@@ -32,10 +36,18 @@ app.use(flash());
 
 //PASSPORT CONFIGURATION
 
-app.use(require("express-session")({
-	secret: "Once again Rusty wins cutest dog!",
+// app.use(require("express-session")({
+// 	secret: "Once again Rusty wins cutest dog!",
+// 	resave: false,
+// 	saveUninitialized: false
+// }));
+
+app.use(session({
+	secret:"yelper camper is a cool thing!",
+	store: new MongoStore({mongooseConnection: mongoose.connection}),
 	resave: false,
-	saveUninitialized: false
+	saveUninitialized: false,
+	cookie: { maxAge: 180 * 60 * 1000 }
 }));
 
 app.use(passport.initialize());
@@ -54,6 +66,6 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(3000, function(){
-	console.log("YelpCamp server has started!")
+app.listen(PORT, function(){
+	console.log("YelpCamp is running port ${PORT}")
 });
